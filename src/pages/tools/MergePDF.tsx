@@ -43,28 +43,73 @@ const MergePDF = () => {
         if (currentStep >= steps) {
           clearInterval(interval);
           
-          // For simulation, we'll just rename the first file as if it were merged
-          const totalSize = files.reduce((sum, file) => sum + file.size, 0);
-          
-          // Create a new file object with merged name
+          // Improved merging simulation - combine all file data instead of just using the first file
           const mergedFileName = "merged_document.pdf";
-          const mergedBlob = new Blob([files[0]], { type: 'application/pdf' });
-          const mergedFile = new File([mergedBlob], mergedFileName, { type: 'application/pdf' });
           
-          // Store the original files in case needed
-          Object.defineProperty(mergedFile, 'originalFiles', {
-            value: files,
-            writable: false
-          });
+          // Read all files and concatenate their data
+          const concatenateFiles = async () => {
+            const readers = files.map(file => {
+              return new Promise<ArrayBuffer>((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result as ArrayBuffer);
+                reader.readAsArrayBuffer(file);
+              });
+            });
+            
+            // Wait for all files to be read
+            const fileBuffers = await Promise.all(readers);
+            
+            // Calculate total size
+            const totalSize = fileBuffers.reduce((sum, buffer) => sum + buffer.byteLength, 0);
+            
+            // Create a combined buffer
+            const combinedBuffer = new Uint8Array(totalSize);
+            
+            // Copy data from each file into the combined buffer
+            let offset = 0;
+            fileBuffers.forEach(buffer => {
+              combinedBuffer.set(new Uint8Array(buffer), offset);
+              offset += buffer.byteLength;
+            });
+            
+            // Create the merged file
+            const mergedBlob = new Blob([combinedBuffer], { type: 'application/pdf' });
+            const mergedFile = new File([mergedBlob], mergedFileName, { type: 'application/pdf' });
+            
+            // Add metadata about original files
+            Object.defineProperty(mergedFile, 'originalFiles', {
+              value: files,
+              writable: false
+            });
+            
+            resolve(mergedFile);
+          };
           
-          resolve(mergedFile);
+          // Start the concatenation process
+          concatenateFiles();
         }
       }, intervalTime);
     });
   };
 
   const handleProcessStart = async () => {
-    if (files.length === 0) return;
+    if (files.length === 0) {
+      toast({
+        title: "No files selected",
+        description: "Please select at least one PDF file",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (files.length === 1) {
+      toast({
+        title: "Only one file selected",
+        description: "Please select at least two PDF files to merge",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setIsProcessing(true);
     setProgress(0);
@@ -82,6 +127,7 @@ const MergePDF = () => {
         description: `${files.length} files merged successfully`,
       });
     } catch (error) {
+      console.error("Merge error:", error);
       toast({
         title: "Merge failed",
         description: "An error occurred during merging",
@@ -124,6 +170,7 @@ const MergePDF = () => {
           buttonLabel="Merge new files"
           onNewFileClick={handleReset}
           onDownloadClick={handleDownload}
+          processedFile={processedFile}
         />
       );
     }
