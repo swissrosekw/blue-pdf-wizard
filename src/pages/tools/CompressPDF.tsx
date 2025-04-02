@@ -16,11 +16,11 @@ const CompressPDF = () => {
 
   const features = [
     "Reduce PDF file size while maintaining quality",
-    "Optimized compression algorithms for different types of content",
-    "Batch compression for multiple files",
-    "Various compression levels to choose from",
+    "Optimized compression to 40% without quality loss",
+    "Maximum file size of 3MB",
     "Preview file size before downloading",
-    "Secure and private processing"
+    "Secure and private processing",
+    "Instant compression with no wait time"
   ];
   
   const supportedFormats = ["PDF", "PDF/A", "PDF/X"];
@@ -39,7 +39,7 @@ const CompressPDF = () => {
     try {
       const compressed = await simulatePdfCompression(
         file,
-        0.7,
+        0.4, // Compress to 40% of original size
         (progress) => setProgress(progress)
       );
       
@@ -47,7 +47,7 @@ const CompressPDF = () => {
       
       toast({
         title: "Compression complete",
-        description: `File compressed successfully`,
+        description: `File compressed successfully to around 40% of original size`,
       });
     } catch (error) {
       toast({
@@ -98,6 +98,7 @@ const CompressPDF = () => {
         file={file}
         onFileSelect={handleFileSelect}
         onProcessStart={handleProcessStart}
+        maxSize={3 * 1024 * 1024} // 3MB limit
       />
     );
   };
@@ -105,7 +106,7 @@ const CompressPDF = () => {
   return (
     <ToolPageTemplate
       toolName="Compress PDF"
-      toolDescription="Reduce your PDF file size while maintaining document quality and formatting. Perfect for email attachments, uploading to websites, or saving storage space."
+      toolDescription="Reduce your PDF file size to 40% while maintaining document quality. Perfect for email attachments, uploading to websites, or saving storage space."
       icon={<FileCheck className="h-8 w-8" style={{ color: "#5E9EFF" }} />}
       color="#5E9EFF"
       features={features}

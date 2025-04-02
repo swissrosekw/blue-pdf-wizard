@@ -38,13 +38,13 @@ export const downloadFile = (file: File): void => {
 /**
  * Simulates PDF compression
  * @param file Original PDF file
- * @param compressionRatio Ratio to compress by (0.7 = 70% of original size)
+ * @param compressionRatio Ratio to compress by (0.4 = 40% of original size)
  * @param onProgress Progress callback
  * @returns Promise that resolves to the compressed file
  */
 export const simulatePdfCompression = (
   file: File, 
-  compressionRatio: number = 0.7,
+  compressionRatio: number = 0.4,
   onProgress: (progress: number) => void
 ): Promise<File> => {
   return new Promise((resolve) => {
