@@ -5,10 +5,11 @@ import { FilePlus2 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import FileUploader from "@/components/pdf-tools/FileUploader";
 import ProcessingIndicator from "@/components/pdf-tools/ProcessingIndicator";
-import { downloadFile, simulatePdfCompression } from "@/utils/fileUtils";
+import ProcessResult from "@/components/pdf-tools/ProcessResult";
+import { downloadFile } from "@/utils/fileUtils";
 
 const MergePDF = () => {
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
   const [processedFile, setProcessedFile] = useState<File | null>(null);
@@ -24,31 +25,61 @@ const MergePDF = () => {
   
   const supportedFormats = ["PDF", "PDF/A", "PDF/X"];
   
-  const handleFileSelect = (selectedFile: File) => {
-    setFile(selectedFile);
+  const handleFilesSelect = (selectedFiles: File[]) => {
+    setFiles(selectedFiles);
     setProcessedFile(null);
   };
 
+  const simulatePdfMerge = (files: File[], onProgress: (progress: number) => void): Promise<File> => {
+    return new Promise((resolve) => {
+      const steps = 20;
+      let currentStep = 0;
+      const intervalTime = 100;
+      
+      const interval = setInterval(() => {
+        currentStep++;
+        onProgress(currentStep * (100 / steps));
+        
+        if (currentStep >= steps) {
+          clearInterval(interval);
+          
+          // For simulation, we'll just rename the first file as if it were merged
+          const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+          
+          // Create a new file object with merged name
+          const mergedFileName = "merged_document.pdf";
+          const mergedBlob = new Blob([files[0]], { type: 'application/pdf' });
+          const mergedFile = new File([mergedBlob], mergedFileName, { type: 'application/pdf' });
+          
+          // Store the original files in case needed
+          Object.defineProperty(mergedFile, 'originalFiles', {
+            value: files,
+            writable: false
+          });
+          
+          resolve(mergedFile);
+        }
+      }, intervalTime);
+    });
+  };
+
   const handleProcessStart = async () => {
-    if (!file) return;
+    if (files.length === 0) return;
     
     setIsProcessing(true);
     setProgress(0);
     
     try {
-      // For simulation purposes, we're using the same function as compression
-      // In a real application, this would be a specific merge PDF function
-      const processed = await simulatePdfCompression(
-        file,
-        1.0, // No compression for merging
+      const merged = await simulatePdfMerge(
+        files,
         (progress) => setProgress(progress)
       );
       
-      setProcessedFile(processed);
+      setProcessedFile(merged);
       
       toast({
         title: "Merge complete",
-        description: `Files merged successfully`,
+        description: `${files.length} files merged successfully`,
       });
     } catch (error) {
       toast({
@@ -73,7 +104,7 @@ const MergePDF = () => {
   };
   
   const handleReset = () => {
-    setFile(null);
+    setFiles([]);
     setProcessedFile(null);
     setProgress(0);
   };
@@ -83,36 +114,28 @@ const MergePDF = () => {
       return <ProcessingIndicator progress={progress} label="Merging your PDFs..." />;
     }
     
-    if (processedFile && file) {
+    if (processedFile) {
       return (
-        <div className="flex flex-col items-center justify-center p-6">
-          <div className="mb-6 p-4 rounded-lg bg-green-50 text-green-700 w-full">
-            <h3 className="text-xl font-semibold mb-2">Merge complete!</h3>
-            <p className="mb-4">Your PDFs have been merged into a single file.</p>
-          </div>
-          <div className="flex gap-4 w-full">
-            <button 
-              onClick={handleReset}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded text-gray-700 hover:bg-gray-50"
-            >
-              Merge new files
-            </button>
-            <button 
-              onClick={handleDownload}
-              className="flex-1 px-4 py-2 bg-saltBlue text-white rounded hover:bg-saltBlue/90 flex items-center justify-center gap-2"
-            >
-              Download
-            </button>
-          </div>
-        </div>
+        <ProcessResult
+          title="Merge complete!"
+          description={`Your ${files.length} PDFs have been merged into a single file.`}
+          bgColorClass="bg-green-50"
+          textColorClass="text-green-700"
+          buttonLabel="Merge new files"
+          onNewFileClick={handleReset}
+          onDownloadClick={handleDownload}
+        />
       );
     }
     
     return (
       <FileUploader
-        file={file}
-        onFileSelect={handleFileSelect}
+        file={null}
+        files={files}
+        onFileSelect={() => {}}
+        onFilesSelect={handleFilesSelect}
         onProcessStart={handleProcessStart}
+        multiple={true}
       />
     );
   };
