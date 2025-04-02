@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import ToolPageTemplate from "@/components/ToolPageTemplate";
-import { FileCheck, Upload, Download, File } from "lucide-react";
+import { FileCheck, Upload, Download, File as FileIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/hooks/use-toast";
@@ -64,18 +64,22 @@ const CompressPDF = () => {
         clearInterval(interval);
         setIsProcessing(false);
         
-        // Create a simulated compressed file (70% of original size)
         if (file) {
           const compressedSize = Math.floor(file.size * 0.7);
-          const compressedBlob = new Blob([new ArrayBuffer(compressedSize)], { type: 'application/pdf' });
+          const compressedBlob = new Blob([file], { type: 'application/pdf' });
           const newFileName = file.name.replace('.pdf', '_compressed.pdf');
-          // Fix: Correctly create a new File object
-          const compressedFile = new File([compressedBlob], newFileName, { type: 'application/pdf' });
+          
+          const compressedFile = new File(
+            [compressedBlob], 
+            newFileName, 
+            { type: 'application/pdf' }
+          );
+          
           setCompressedFile(compressedFile);
           
           toast({
             title: "Compression complete",
-            description: `Reduced from ${formatFileSize(file.size)} to ${formatFileSize(compressedSize)}`,
+            description: `Reduced from ${formatFileSize(file.size)} to ${formatFileSize(compressedFile.size)}`,
           });
         }
       }
@@ -139,7 +143,7 @@ const CompressPDF = () => {
       {file && !compressedFile && !isProcessing && (
         <div className="flex flex-col items-center justify-center p-6">
           <div className="w-20 h-20 bg-lightSalt rounded-full flex items-center justify-center mb-6">
-            <File className="w-10 h-10 text-saltBlue" />
+            <FileIcon className="w-10 h-10 text-saltBlue" />
           </div>
           <h3 className="text-xl font-semibold mb-2">{file.name}</h3>
           <p className="text-gray-500 mb-6">{formatFileSize(file.size)}</p>
