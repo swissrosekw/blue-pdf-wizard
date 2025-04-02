@@ -6,6 +6,7 @@ import ToolsGrid from "@/components/ToolsGrid";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
