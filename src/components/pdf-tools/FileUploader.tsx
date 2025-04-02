@@ -1,5 +1,4 @@
-
-import React, { useRef } from "react";
+import React from "react";
 import { Upload, File as FileIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -26,7 +25,7 @@ const FileUploader = ({
   maxSize = 5 * 1024 * 1024, // 5MB default limit
   multiple = false
 }: FileUploaderProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files;
@@ -163,7 +162,7 @@ const FileUploader = ({
               onClick={onProcessStart}
               className="bg-saltBlue hover:bg-saltBlue/90"
             >
-              Compress PDF
+              Process File
             </Button>
           </div>
         </div>
