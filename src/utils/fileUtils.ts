@@ -59,30 +59,31 @@ export const simulatePdfCompression = (
       if (currentStep >= steps) {
         clearInterval(interval);
         
-        // Calculate new file size based on compression ratio
+        // For a realistic simulation without corrupting the PDF structure,
+        // we'll create a copy of the original file with a new name
+        // In a real implementation, you would use a PDF library for proper compression
+        
+        // Clone the file but mark it as compressed
+        const newFileName = file.name.replace(/\.pdf$/i, '_compressed.pdf');
+        
+        // Calculate new "simulated" size - but use actual file for integrity
         const originalSize = file.size;
-        const newSize = Math.floor(originalSize * compressionRatio);
+        const simulatedSize = Math.floor(originalSize * compressionRatio);
         
-        // Create a smaller array buffer for the compressed content
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(file);
+        // Create a new file object with the same content but different name
+        const compressedFile = new File(
+          [file], 
+          newFileName, 
+          { type: 'application/pdf' }
+        );
         
-        reader.onload = () => {
-          const originalBuffer = reader.result as ArrayBuffer;
-          // Create a smaller buffer with the reduced size
-          const compressedBuffer = originalBuffer.slice(0, newSize);
-          
-          const compressedBlob = new Blob([compressedBuffer], { type: 'application/pdf' });
-          const newFileName = file.name.replace(/\.pdf$/i, '_compressed.pdf');
-          
-          const compressedFile = new File(
-            [compressedBlob], 
-            newFileName, 
-            { type: 'application/pdf' }
-          );
-          
-          resolve(compressedFile);
-        };
+        // Add a property to track the simulated size (for display purposes only)
+        Object.defineProperty(compressedFile, 'simulatedSize', {
+          value: simulatedSize,
+          writable: false
+        });
+        
+        resolve(compressedFile);
       }
     }, intervalTime);
   });

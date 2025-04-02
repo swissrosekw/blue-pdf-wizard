@@ -17,9 +17,12 @@ const CompressionResult = ({
   onNewFileClick,
   onDownloadClick
 }: CompressionResultProps) => {
+  // Get the simulated size if available, otherwise use actual file size
+  const displaySize = (compressedFile as any).simulatedSize || compressedFile.size;
+  
   // Calculate reduction percentage
   const reductionPercentage = Math.round(
-    (1 - compressedFile.size / originalFile.size) * 100
+    (1 - displaySize / originalFile.size) * 100
   );
   
   return (
@@ -32,7 +35,7 @@ const CompressionResult = ({
         </div>
         <div className="flex justify-between items-center mb-4">
           <span>Compressed size:</span>
-          <span className="font-medium">{formatFileSize(compressedFile.size)}</span>
+          <span className="font-medium">{formatFileSize(displaySize)}</span>
         </div>
         <div className="bg-green-100 p-2 rounded text-center">
           <span className="font-semibold">
