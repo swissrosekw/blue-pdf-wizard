@@ -59,17 +59,30 @@ export const simulatePdfCompression = (
       if (currentStep >= steps) {
         clearInterval(interval);
         
-        // Create the compressed file
-        const compressedBlob = new Blob([file], { type: 'application/pdf' });
-        const newFileName = file.name.replace(/\.pdf$/i, '_compressed.pdf');
+        // Calculate new file size based on compression ratio
+        const originalSize = file.size;
+        const newSize = Math.floor(originalSize * compressionRatio);
         
-        const compressedFile = new File(
-          [compressedBlob], 
-          newFileName, 
-          { type: 'application/pdf' }
-        );
+        // Create a smaller array buffer for the compressed content
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
         
-        resolve(compressedFile);
+        reader.onload = () => {
+          const originalBuffer = reader.result as ArrayBuffer;
+          // Create a smaller buffer with the reduced size
+          const compressedBuffer = originalBuffer.slice(0, newSize);
+          
+          const compressedBlob = new Blob([compressedBuffer], { type: 'application/pdf' });
+          const newFileName = file.name.replace(/\.pdf$/i, '_compressed.pdf');
+          
+          const compressedFile = new File(
+            [compressedBlob], 
+            newFileName, 
+            { type: 'application/pdf' }
+          );
+          
+          resolve(compressedFile);
+        };
       }
     }, intervalTime);
   });
