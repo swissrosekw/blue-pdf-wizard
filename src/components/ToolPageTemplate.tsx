@@ -14,6 +14,7 @@ interface ToolPageTemplateProps {
   color: string;
   features: string[];
   supportedFormats?: string[];
+  customContent?: React.ReactNode;
 }
 
 const ToolPageTemplate: React.FC<ToolPageTemplateProps> = ({
@@ -22,7 +23,8 @@ const ToolPageTemplate: React.FC<ToolPageTemplateProps> = ({
   icon,
   color,
   features,
-  supportedFormats = []
+  supportedFormats = [],
+  customContent
 }) => {
   return (
     <div className="min-h-screen flex flex-col">
@@ -43,13 +45,24 @@ const ToolPageTemplate: React.FC<ToolPageTemplateProps> = ({
               <p className="text-lg text-charcoal/70 mb-8">
                 {toolDescription}
               </p>
-              <Button size="lg" className="bg-saltBlue hover:bg-saltBlue/90 flex items-center gap-2">
-                <Upload className="h-5 w-5" />
-                Upload PDF File
-              </Button>
+              {!customContent && (
+                <Button size="lg" className="bg-saltBlue hover:bg-saltBlue/90 flex items-center gap-2">
+                  <Upload className="h-5 w-5" />
+                  Upload PDF File
+                </Button>
+              )}
             </div>
           </div>
         </section>
+        
+        {/* Custom Content Section */}
+        {customContent && (
+          <section className="py-8 bg-white">
+            <div className="container mx-auto px-4">
+              {customContent}
+            </div>
+          </section>
+        )}
         
         {/* How It Works Section */}
         <section className="py-20 bg-white">
@@ -152,10 +165,12 @@ const ToolPageTemplate: React.FC<ToolPageTemplateProps> = ({
               Get started now or check out our other PDF tools
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button className="bg-white text-saltBlue hover:bg-white/90 px-8 py-6 text-lg font-medium">
-                Upload PDF Now
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              {!customContent && (
+                <Button className="bg-white text-saltBlue hover:bg-white/90 px-8 py-6 text-lg font-medium">
+                  Upload PDF Now
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              )}
               <Button asChild variant="outline" className="bg-transparent border-white text-white hover:bg-white/10 px-8 py-6 text-lg font-medium">
                 <Link to="/tools">
                   Explore All Tools
