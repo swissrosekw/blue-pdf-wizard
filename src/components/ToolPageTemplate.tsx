@@ -15,6 +15,8 @@ interface ToolPageTemplateProps {
   features: string[];
   supportedFormats?: string[];
   customContent?: React.ReactNode;
+  customHero?: React.ReactNode;
+  customSteps?: React.ReactNode;
 }
 
 const ToolPageTemplate: React.FC<ToolPageTemplateProps> = ({
@@ -24,7 +26,9 @@ const ToolPageTemplate: React.FC<ToolPageTemplateProps> = ({
   color,
   features,
   supportedFormats = [],
-  customContent
+  customContent,
+  customHero,
+  customSteps
 }) => {
   return (
     <div className="min-h-screen flex flex-col">
@@ -32,28 +36,32 @@ const ToolPageTemplate: React.FC<ToolPageTemplateProps> = ({
       
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="py-16 bg-lightSalt">
-          <div className="container mx-auto px-4">
-            <div className="max-w-3xl mx-auto text-center">
-              <div 
-                className="mx-auto mb-6 p-4 rounded-lg inline-flex"
-                style={{ backgroundColor: `${color}20` }}
-              >
-                {icon}
+        {customHero ? (
+          customHero
+        ) : (
+          <section className="py-16 bg-lightSalt">
+            <div className="container mx-auto px-4">
+              <div className="max-w-3xl mx-auto text-center">
+                <div 
+                  className="mx-auto mb-6 p-4 rounded-lg inline-flex"
+                  style={{ backgroundColor: `${color}20` }}
+                >
+                  {icon}
+                </div>
+                <h1 className="text-4xl md:text-5xl font-bold mb-6">{toolName}</h1>
+                <p className="text-lg text-charcoal/70 mb-8">
+                  {toolDescription}
+                </p>
+                {!customContent && (
+                  <Button size="lg" className="bg-saltBlue hover:bg-saltBlue/90 flex items-center gap-2">
+                    <Upload className="h-5 w-5" />
+                    Upload PDF File
+                  </Button>
+                )}
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">{toolName}</h1>
-              <p className="text-lg text-charcoal/70 mb-8">
-                {toolDescription}
-              </p>
-              {!customContent && (
-                <Button size="lg" className="bg-saltBlue hover:bg-saltBlue/90 flex items-center gap-2">
-                  <Upload className="h-5 w-5" />
-                  Upload PDF File
-                </Button>
-              )}
             </div>
-          </div>
-        </section>
+          </section>
+        )}
         
         {/* Custom Content Section */}
         {customContent && (
@@ -65,48 +73,52 @@ const ToolPageTemplate: React.FC<ToolPageTemplateProps> = ({
         )}
         
         {/* How It Works Section */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
-              <p className="text-lg text-charcoal/70 max-w-2xl mx-auto">
-                Simple steps to {toolName.toLowerCase()}
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="bg-lightSalt h-16 w-16 rounded-full inline-flex items-center justify-center mb-4">
-                  <span className="text-2xl font-bold text-saltBlue">1</span>
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Upload Your PDF</h3>
-                <p className="text-charcoal/70">
-                  Select your PDF file by clicking the upload button or drag and drop
+        {customSteps ? (
+          customSteps
+        ) : (
+          <section className="py-20 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-16">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+                <p className="text-lg text-charcoal/70 max-w-2xl mx-auto">
+                  Simple steps to {toolName.toLowerCase()}
                 </p>
               </div>
               
-              <div className="text-center">
-                <div className="bg-lightSalt h-16 w-16 rounded-full inline-flex items-center justify-center mb-4">
-                  <span className="text-2xl font-bold text-saltBlue">2</span>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="text-center">
+                  <div className="bg-lightSalt h-16 w-16 rounded-full inline-flex items-center justify-center mb-4">
+                    <span className="text-2xl font-bold text-saltBlue">1</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Upload Your PDF</h3>
+                  <p className="text-charcoal/70">
+                    Select your PDF file by clicking the upload button or drag and drop
+                  </p>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Process Your File</h3>
-                <p className="text-charcoal/70">
-                  Our system will automatically process your file with optimal settings
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="bg-lightSalt h-16 w-16 rounded-full inline-flex items-center justify-center mb-4">
-                  <span className="text-2xl font-bold text-saltBlue">3</span>
+                
+                <div className="text-center">
+                  <div className="bg-lightSalt h-16 w-16 rounded-full inline-flex items-center justify-center mb-4">
+                    <span className="text-2xl font-bold text-saltBlue">2</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Process Your File</h3>
+                  <p className="text-charcoal/70">
+                    Our system will automatically process your file with optimal settings
+                  </p>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Download Result</h3>
-                <p className="text-charcoal/70">
-                  Download your processed PDF file instantly
-                </p>
+                
+                <div className="text-center">
+                  <div className="bg-lightSalt h-16 w-16 rounded-full inline-flex items-center justify-center mb-4">
+                    <span className="text-2xl font-bold text-saltBlue">3</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Download Result</h3>
+                  <p className="text-charcoal/70">
+                    Download your processed PDF file instantly
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
         
         {/* Features Section */}
         <section className="py-20 bg-gradient-to-br from-saltBlue/5 to-seaMint/5">

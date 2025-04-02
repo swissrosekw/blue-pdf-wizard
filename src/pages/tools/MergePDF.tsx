@@ -1,13 +1,12 @@
 
 import React from "react";
 import ToolPageTemplate from "@/components/ToolPageTemplate";
-import { FilePlus2 } from "lucide-react";
-import MergeForm from "@/components/pdf-tools/merge/MergeForm";
-import MergeFeatures from "@/components/pdf-tools/merge/MergeFeatures";
+import { MergeProvider } from "@/context/MergeContext";
+import MergeContent from "@/components/pdf-tools/merge/MergeContent";
+import MergeHero from "@/components/pdf-tools/merge/MergeHero";
+import MergeSteps from "@/components/pdf-tools/merge/MergeSteps";
 
 const MergePDF = () => {
-  const [resetKey, setResetKey] = React.useState(0);
-
   const features = [
     "Combine multiple PDF files into one document",
     "Drag and drop interface for easy ordering",
@@ -19,24 +18,23 @@ const MergePDF = () => {
   
   const supportedFormats = ["PDF", "PDF/A", "PDF/X"];
   
-  const handleReset = () => {
-    setResetKey(prev => prev + 1);
-  };
+  const toolName = "Merge PDF";
+  const toolDescription = "Combine multiple PDF files into a single document. Easily organize and rearrange pages to create comprehensive documents from multiple sources.";
   
   return (
-    <ToolPageTemplate
-      toolName="Merge PDF"
-      toolDescription="Combine multiple PDF files into a single document. Easily organize and rearrange pages to create comprehensive documents from multiple sources."
-      icon={<FilePlus2 className="h-8 w-8" style={{ color: "#50E3C2" }} />}
-      color="#50E3C2"
-      features={features}
-      supportedFormats={supportedFormats}
-      customContent={
-        <div className="bg-white rounded-lg shadow-sm border p-8 mt-8 max-w-xl mx-auto text-center">
-          <MergeForm key={resetKey} onReset={handleReset} />
-        </div>
-      }
-    />
+    <MergeProvider>
+      <ToolPageTemplate
+        toolName={toolName}
+        toolDescription={toolDescription}
+        icon={<></>} // This will be handled by MergeHero
+        color="#50E3C2"
+        features={features}
+        supportedFormats={supportedFormats}
+        customContent={<MergeContent />}
+        customHero={<MergeHero toolName={toolName} toolDescription={toolDescription} />}
+        customSteps={<MergeSteps />}
+      />
+    </MergeProvider>
   );
 };
 
