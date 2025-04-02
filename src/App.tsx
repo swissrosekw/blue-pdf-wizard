@@ -18,6 +18,7 @@ import OCRPDF from "./pages/tools/OCRPDF";
 import OptimizePDF from "./pages/tools/OptimizePDF";
 import RepairPDF from "./pages/tools/RepairPDF";
 import NotFound from "./pages/NotFound";
+import AdminPanel from "./pages/sco/admin/AdminPanel";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,8 @@ const App = () => (
           <Route path="/tools/ocr-pdf" element={<OCRPDF />} />
           <Route path="/tools/optimize-pdf" element={<OptimizePDF />} />
           <Route path="/tools/repair-pdf" element={<RepairPDF />} />
+          {/* Admin routes */}
+          <Route path="/sco/admin/*" element={<AdminPanel />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
