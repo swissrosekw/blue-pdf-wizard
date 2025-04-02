@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from "react";
 import ToolPageTemplate from "@/components/ToolPageTemplate";
 import { FileCheck, Upload, Download, File } from "lucide-react";
@@ -70,6 +69,7 @@ const CompressPDF = () => {
           const compressedSize = Math.floor(file.size * 0.7);
           const compressedBlob = new Blob([new ArrayBuffer(compressedSize)], { type: 'application/pdf' });
           const newFileName = file.name.replace('.pdf', '_compressed.pdf');
+          // Fix: Correctly create a new File object
           const compressedFile = new File([compressedBlob], newFileName, { type: 'application/pdf' });
           setCompressedFile(compressedFile);
           
@@ -107,6 +107,7 @@ const CompressPDF = () => {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
+  
   
   const UploadSection = () => (
     <div className="bg-white rounded-lg shadow-sm border p-8 mt-8 max-w-xl mx-auto text-center">
