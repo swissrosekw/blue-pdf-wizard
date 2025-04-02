@@ -10,6 +10,7 @@ import {
   FileCog2, 
   FileDigit 
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface Tool {
   id: string;
@@ -17,6 +18,7 @@ interface Tool {
   description: string;
   icon: React.ElementType;
   color: string;
+  path: string;
 }
 
 const tools: Tool[] = [
@@ -25,63 +27,72 @@ const tools: Tool[] = [
     name: "Compress PDF",
     description: "Reduce file size while maintaining quality",
     icon: FileCheck,
-    color: "#5E9EFF"
+    color: "#5E9EFF",
+    path: "/tools/compress-pdf"
   },
   {
     id: "merge",
     name: "Merge PDF",
     description: "Combine multiple PDFs into one document",
     icon: FilePlus2,
-    color: "#50E3C2"
+    color: "#50E3C2",
+    path: "/tools/merge-pdf"
   },
   {
     id: "split",
     name: "Split PDF",
     description: "Separate one PDF into multiple files",
     icon: FileDigit,
-    color: "#5E9EFF"
+    color: "#5E9EFF",
+    path: "/tools/split-pdf"
   },
   {
     id: "convert",
     name: "Convert PDF",
     description: "Transform PDFs to different formats",
     icon: FileCog,
-    color: "#50E3C2"
+    color: "#50E3C2",
+    path: "/tools/convert-pdf"
   },
   {
     id: "edit",
     name: "Edit PDF",
     description: "Modify text, images, and pages in your PDF",
     icon: FileText,
-    color: "#5E9EFF"
+    color: "#5E9EFF",
+    path: "/tools/edit-pdf"
   },
   {
     id: "protect",
     name: "Protect PDF",
     description: "Add password protection to your PDF",
     icon: FileKey,
-    color: "#50E3C2"
+    color: "#50E3C2",
+    path: "/tools/protect-pdf"
   },
   {
     id: "ocr",
     name: "OCR PDF",
     description: "Make scanned PDFs searchable and editable",
     icon: FileScan,
-    color: "#5E9EFF"
+    color: "#5E9EFF",
+    path: "/tools/ocr-pdf"
   },
   {
     id: "optimize",
     name: "Optimize PDF",
     description: "Optimize your PDF for web and mobile",
     icon: FileCog2,
-    color: "#50E3C2"
+    color: "#50E3C2",
+    path: "/tools/optimize-pdf"
   },
   {
     id: "repair",
     name: "Repair PDF",
     description: "Fix corrupt or damaged PDF files",
     icon: FileWarning,
-    color: "#5E9EFF"
+    color: "#5E9EFF",
+    path: "/tools/repair-pdf"
   }
 ];
 
@@ -98,9 +109,9 @@ const ToolsGrid = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {tools.map((tool) => (
-            <a 
+            <Link 
               key={tool.id}
-              href={`#${tool.id}`}
+              to={tool.path}
               className="p-6 bg-lightSalt rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 flex items-start gap-4 group"
             >
               <div 
@@ -120,7 +131,7 @@ const ToolsGrid = () => {
                   {tool.description}
                 </p>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

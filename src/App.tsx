@@ -8,6 +8,15 @@ import Index from "./pages/Index";
 import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
 import Tools from "./pages/Tools";
+import CompressPDF from "./pages/tools/CompressPDF";
+import MergePDF from "./pages/tools/MergePDF";
+import SplitPDF from "./pages/tools/SplitPDF";
+import ConvertPDF from "./pages/tools/ConvertPDF";
+import EditPDF from "./pages/tools/EditPDF";
+import ProtectPDF from "./pages/tools/ProtectPDF";
+import OCRPDF from "./pages/tools/OCRPDF";
+import OptimizePDF from "./pages/tools/OptimizePDF";
+import RepairPDF from "./pages/tools/RepairPDF";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +32,16 @@ const App = () => (
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/tools" element={<Tools />} />
+          {/* Tool-specific routes */}
+          <Route path="/tools/compress-pdf" element={<CompressPDF />} />
+          <Route path="/tools/merge-pdf" element={<MergePDF />} />
+          <Route path="/tools/split-pdf" element={<SplitPDF />} />
+          <Route path="/tools/convert-pdf" element={<ConvertPDF />} />
+          <Route path="/tools/edit-pdf" element={<EditPDF />} />
+          <Route path="/tools/protect-pdf" element={<ProtectPDF />} />
+          <Route path="/tools/ocr-pdf" element={<OCRPDF />} />
+          <Route path="/tools/optimize-pdf" element={<OptimizePDF />} />
+          <Route path="/tools/repair-pdf" element={<RepairPDF />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
