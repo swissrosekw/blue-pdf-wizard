@@ -17,14 +17,22 @@ export const formatFileSize = (bytes: number): string => {
  * @param file File to download
  */
 export const downloadFile = (file: File): void => {
-  const downloadUrl = URL.createObjectURL(file);
-  const a = document.createElement('a');
-  a.href = downloadUrl;
-  a.download = file.name;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(downloadUrl);
+  try {
+    const downloadUrl = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    a.download = file.name;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Clean up
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(downloadUrl);
+    }, 100);
+  } catch (error) {
+    console.error("Download error:", error);
+  }
 };
 
 /**
@@ -53,7 +61,7 @@ export const simulatePdfCompression = (
         
         // Create the compressed file
         const compressedBlob = new Blob([file], { type: 'application/pdf' });
-        const newFileName = file.name.replace('.pdf', '_compressed.pdf');
+        const newFileName = file.name.replace(/\.pdf$/i, '_compressed.pdf');
         
         const compressedFile = new File(
           [compressedBlob], 
