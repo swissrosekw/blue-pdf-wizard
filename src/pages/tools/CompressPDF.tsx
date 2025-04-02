@@ -17,7 +17,7 @@ const CompressPDF = () => {
   const features = [
     "Reduce PDF file size while maintaining quality",
     "Optimized compression to 40% without quality loss",
-    "Maximum file size of 3MB",
+    "Maximum file size of 5MB",
     "Preview file size before downloading",
     "Secure and private processing",
     "Instant compression with no wait time"
@@ -98,7 +98,7 @@ const CompressPDF = () => {
         file={file}
         onFileSelect={handleFileSelect}
         onProcessStart={handleProcessStart}
-        maxSize={3 * 1024 * 1024} // 3MB limit
+        maxSize={5 * 1024 * 1024} // 5MB limit
       />
     );
   };

@@ -18,7 +18,7 @@ const FileUploader = ({
   onFileSelect,
   onProcessStart,
   acceptedTypes = ["application/pdf"],
-  maxSize = 3 * 1024 * 1024 // 3MB default limit
+  maxSize = 5 * 1024 * 1024 // 5MB default limit
 }: FileUploaderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -73,7 +73,7 @@ const FileUploader = ({
             <Upload className="w-10 h-10 text-saltBlue" />
           </div>
           <h3 className="text-xl font-semibold mb-2">Upload your PDF file</h3>
-          <p className="text-gray-500 mb-4">Max file size: 3MB</p>
+          <p className="text-gray-500 mb-4">Max file size: 5MB</p>
           <Button 
             onClick={handleUploadClick}
             className="bg-saltBlue hover:bg-saltBlue/90 flex items-center gap-2"
