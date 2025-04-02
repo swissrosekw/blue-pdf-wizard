@@ -20,6 +20,7 @@ const MainHeader = () => {
           <nav className="hidden md:flex items-center space-x-6">
             <Link to="/" className="text-charcoal hover:text-saltBlue transition-colors">Home</Link>
             <Link to="/pricing" className="text-charcoal hover:text-saltBlue transition-colors">Pricing</Link>
+            <Link to="/contact" className="text-charcoal hover:text-saltBlue transition-colors">Contact</Link>
             <a href="#tools" className="text-charcoal hover:text-saltBlue transition-colors">Tools</a>
             <a href="#features" className="text-charcoal hover:text-saltBlue transition-colors">Features</a>
           </nav>
