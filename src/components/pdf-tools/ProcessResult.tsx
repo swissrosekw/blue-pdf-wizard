@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Download, FileIcon } from "lucide-react";
+import { Download, FileIcon, Files } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatFileSize } from "@/utils/fileUtils";
 
@@ -25,6 +25,11 @@ const ProcessResult = ({
   onDownloadClick,
   processedFile
 }: ProcessResultProps) => {
+  // Check if the file is a merged PDF file with multiple source files
+  const isMergedFile = processedFile && 
+    Object.prototype.hasOwnProperty.call(processedFile, 'fileCount') && 
+    (processedFile as any).fileCount > 1;
+
   return (
     <div className="flex flex-col items-center justify-center p-6">
       <div className={`mb-6 p-4 rounded-lg ${bgColorClass} ${textColorClass} w-full`}>
@@ -34,10 +39,21 @@ const ProcessResult = ({
         {/* Display file information if available */}
         {processedFile && (
           <div className="flex items-center justify-center bg-white/50 rounded-lg p-3 mb-2">
-            <FileIcon className="h-5 w-5 mr-2" />
+            {isMergedFile ? (
+              <Files className="h-5 w-5 mr-2" />
+            ) : (
+              <FileIcon className="h-5 w-5 mr-2" />
+            )}
             <div className="text-left">
               <p className="font-medium">{processedFile.name}</p>
               <p className="text-sm opacity-70">{formatFileSize(processedFile.size)}</p>
+              
+              {/* Show merged file details if available */}
+              {isMergedFile && (processedFile as any).mergedFiles && (
+                <div className="text-xs opacity-60 mt-1">
+                  Contains {(processedFile as any).fileCount} files
+                </div>
+              )}
             </div>
           </div>
         )}
