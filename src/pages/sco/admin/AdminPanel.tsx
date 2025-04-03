@@ -12,28 +12,52 @@ import { SupportTickets } from "@/components/admin/SupportTickets";
 import { AdminSettings } from "@/components/admin/AdminSettings";
 import { Subscriptions } from "@/components/admin/Subscriptions";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useToast } from "@/hooks/use-toast";
 
 const AdminPanel = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const { toast } = useToast();
 
   useEffect(() => {
+    // Check if admin is authenticated
+    const isAuthenticated = localStorage.getItem("adminAuthenticated") === "true";
+    
+    if (!isAuthenticated) {
+      toast({
+        title: "Authentication required",
+        description: "Please login to access the admin panel",
+        variant: "destructive",
+      });
+      navigate("/sco/admin/login");
+      return;
+    }
+
     // Close sidebar on mobile by default
     if (isMobile) {
       setSidebarOpen(false);
     }
-  }, [isMobile]);
+  }, [isMobile, navigate, toast]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminAuthenticated");
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out",
+    });
+    navigate("/sco/admin/login");
+  };
 
   return (
     <div className="flex min-h-screen bg-lightSalt">
-      <AdminSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+      <AdminSidebar open={sidebarOpen} setOpen={setSidebarOpen} onLogout={handleLogout} />
       <div className={`
         flex-1 flex flex-col 
         transition-all duration-300 
         ${sidebarOpen ? 'md:ml-64' : 'md:ml-[70px]'}
       `}>
-        <AdminHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
+        <AdminHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} onLogout={handleLogout} />
         <main className="flex-1 p-6 overflow-auto">
           <Routes>
             <Route path="/" element={<Dashboard />} />

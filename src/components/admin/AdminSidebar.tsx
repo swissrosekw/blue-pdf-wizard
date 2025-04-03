@@ -9,7 +9,8 @@ import {
   MessageSquare, 
   Settings, 
   CreditCard,
-  ChevronRight
+  ChevronRight,
+  LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -59,9 +60,10 @@ const sidebarItems = [
 interface AdminSidebarProps {
   open: boolean;
   setOpen: (open: boolean) => void;
+  onLogout: () => void;
 }
 
-export const AdminSidebar = ({ open, setOpen }: AdminSidebarProps) => {
+export const AdminSidebar = ({ open, setOpen, onLogout }: AdminSidebarProps) => {
   const location = useLocation();
 
   return (
@@ -84,8 +86,8 @@ export const AdminSidebar = ({ open, setOpen }: AdminSidebarProps) => {
           />
         </button>
       </div>
-      <nav className="p-2">
-        <ul className="space-y-1">
+      <nav className="p-2 flex flex-col h-[calc(100%-4rem)]">
+        <ul className="space-y-1 flex-1">
           {sidebarItems.map((item) => (
             <li key={item.name}>
               <Link 
@@ -106,6 +108,23 @@ export const AdminSidebar = ({ open, setOpen }: AdminSidebarProps) => {
             </li>
           ))}
         </ul>
+        
+        {/* Logout button at bottom */}
+        <div className="mt-auto mb-4">
+          <button
+            onClick={onLogout}
+            className={cn(
+              "flex items-center p-2 rounded-md transition-colors w-full",
+              "text-charcoal hover:bg-red-100 hover:text-red-600",
+              !open && "justify-center"
+            )}
+          >
+            <LogOut className="h-5 w-5 flex-shrink-0" />
+            <span className={cn("ml-3 whitespace-nowrap", !open && "hidden")}>
+              Logout
+            </span>
+          </button>
+        </div>
       </nav>
     </div>
   );

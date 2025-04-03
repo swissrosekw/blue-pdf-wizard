@@ -19,6 +19,7 @@ import OptimizePDF from "./pages/tools/OptimizePDF";
 import RepairPDF from "./pages/tools/RepairPDF";
 import NotFound from "./pages/NotFound";
 import AdminPanel from "./pages/sco/admin/AdminPanel";
+import AdminLogin from "./pages/sco/admin/AdminLogin";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/tools/optimize-pdf" element={<OptimizePDF />} />
           <Route path="/tools/repair-pdf" element={<RepairPDF />} />
           {/* Admin routes */}
+          <Route path="/sco/admin/login" element={<AdminLogin />} />
           <Route path="/sco/admin/*" element={<AdminPanel />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
