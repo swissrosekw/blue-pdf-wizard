@@ -8,15 +8,18 @@ import { chartConfig } from "./chartConfig";
 
 export const ToolUsageChart = () => {
   return (
-    <Card className="md:col-span-4">
+    <Card className="md:col-span-4 w-full">
       <CardHeader>
         <CardTitle>Tool Usage</CardTitle>
         <CardDescription>Most popular tools in the last 30 days</CardDescription>
       </CardHeader>
-      <CardContent className="h-80">
-        <ChartContainer config={chartConfig}>
+      <CardContent className="h-80 w-full">
+        <ChartContainer config={chartConfig} className="w-full h-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={toolUsageData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+            <BarChart 
+              data={toolUsageData} 
+              margin={{ top: 20, right: 20, left: 10, bottom: 20 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
