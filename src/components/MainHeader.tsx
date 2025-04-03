@@ -29,8 +29,10 @@ const MainHeader = () => {
             <Button variant="outline" className="hidden md:inline-flex">
               Sign In
             </Button>
-            <Button className="bg-saltBlue hover:bg-saltBlue/90">
-              Get Started
+            <Button asChild className="bg-saltBlue hover:bg-saltBlue/90">
+              <Link to="/plans">
+                Get Started
+              </Link>
             </Button>
           </div>
         </div>

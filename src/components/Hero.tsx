@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -15,12 +16,16 @@ const Hero = () => {
               PDF Salt provides fast, reliable tools to transform your documents instantly. No installation, no registration required.
             </p>
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-              <Button className="bg-saltBlue hover:bg-saltBlue/90 text-white px-8 py-6 text-lg">
-                Get Started
-                <ArrowRight className="ml-2 h-5 w-5" />
+              <Button asChild className="bg-saltBlue hover:bg-saltBlue/90 text-white px-8 py-6 text-lg">
+                <Link to="/plans">
+                  Get Started
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
-              <Button variant="outline" className="border-saltBlue text-saltBlue hover:bg-saltBlue/10 px-8 py-6 text-lg">
-                Explore Tools
+              <Button asChild variant="outline" className="border-saltBlue text-saltBlue hover:bg-saltBlue/10 px-8 py-6 text-lg">
+                <Link to="/tools">
+                  Explore Tools
+                </Link>
               </Button>
             </div>
           </div>
