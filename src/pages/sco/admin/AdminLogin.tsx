@@ -66,6 +66,13 @@ const AdminLogin = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-lightSalt p-4">
       <Card className="w-full max-w-md shadow-lg">
+        <div className="flex justify-center -mt-12 mb-2">
+          <img 
+            src="/lovable-uploads/287fa00a-e652-4b33-b87d-ad719c0deb5b.png" 
+            alt="PDF Salt Logo" 
+            className="h-24 w-24 rounded-full bg-white p-2 shadow-md border" 
+          />
+        </div>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center text-saltBlue">Admin Access</CardTitle>
           <CardDescription className="text-center">
