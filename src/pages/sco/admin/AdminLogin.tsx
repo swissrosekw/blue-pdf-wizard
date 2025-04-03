@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -125,6 +124,13 @@ const AdminLogin = () => {
           </p>
         </CardFooter>
       </Card>
+      
+      <div className="fixed bottom-0 left-0 w-full bg-charcoal text-white py-4 text-center">
+        <p className="text-xs">
+          &copy; 2025 PDFSalt.com. All Rights Reserved. 
+          For any inquiries, please contact <a href="mailto:support@pdfsalt.com" className="underline hover:text-seaMint">support@pdfsalt.com</a>
+        </p>
+      </div>
     </div>
   );
 };
