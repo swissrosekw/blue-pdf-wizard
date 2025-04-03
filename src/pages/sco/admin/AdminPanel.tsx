@@ -28,7 +28,11 @@ const AdminPanel = () => {
   return (
     <div className="flex min-h-screen bg-lightSalt">
       <AdminSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
-      <div className="flex-1 flex flex-col">
+      <div className={`
+        flex-1 flex flex-col 
+        transition-all duration-300 
+        ${sidebarOpen ? 'md:ml-64' : 'md:ml-[70px]'}
+      `}>
         <AdminHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
         <main className="flex-1 p-6 overflow-auto">
           <Routes>

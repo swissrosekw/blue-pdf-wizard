@@ -67,7 +67,7 @@ export const AdminSidebar = ({ open, setOpen }: AdminSidebarProps) => {
   return (
     <div 
       className={cn(
-        "fixed inset-y-0 left-0 z-40 bg-white shadow-md transition-all duration-300 ease-in-out", 
+        "fixed inset-y-0 left-0 z-30 bg-white shadow-md transition-all duration-300 ease-in-out", 
         open ? "w-64" : "w-[70px]"
       )}
     >
