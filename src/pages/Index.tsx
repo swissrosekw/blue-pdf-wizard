@@ -1,3 +1,4 @@
+
 import React from "react";
 import MainHeader from "@/components/MainHeader";
 import Hero from "@/components/Hero";
@@ -14,11 +15,11 @@ const Index = () => {
     <div className="min-h-screen flex flex-col">
       <MainHeader />
       
-      {/* Add AdBanner just before Hero */}
-      <AdBanner />
-      
       <main className="flex-grow">
         <Hero />
+        
+        {/* Move AdBanner after Hero section */}
+        <AdBanner />
         
         {/* Upload Section */}
         <section className="py-16 bg-lightSalt" id="tools">
