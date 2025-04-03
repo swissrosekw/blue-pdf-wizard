@@ -1,9 +1,10 @@
-
+import React from "react";
 import MainHeader from "@/components/MainHeader";
 import Hero from "@/components/Hero";
 import FileUpload from "@/components/FileUpload";
 import ToolsGrid from "@/components/ToolsGrid";
 import Footer from "@/components/Footer";
+import AdBanner from "@/components/AdBanner";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -12,6 +13,9 @@ const Index = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <MainHeader />
+      
+      {/* Add AdBanner just before Hero */}
+      <AdBanner />
       
       <main className="flex-grow">
         <Hero />
