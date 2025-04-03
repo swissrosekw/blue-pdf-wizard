@@ -1,203 +1,204 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import React, { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ResponsiveContainer, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { 
-  BarChart, 
-  Bar, 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  Tooltip, 
-  Legend, 
-  PieChart, 
-  Pie, 
-  Cell, 
-  ResponsiveContainer 
-} from "recharts";
 
-// Mock data for analytics
-const trafficData = [
-  { name: "Jan", visitors: 1200, users: 800 },
+// Sample data - replace with actual data from your backend
+const visitorsData = [
+  { name: "Jan", visitors: 1200, users: 900 },
   { name: "Feb", visitors: 1900, users: 1200 },
-  { name: "Mar", visitors: 2400, users: 1600 },
-  { name: "Apr", visitors: 1500, users: 1000 },
-  { name: "May", visitors: 2800, users: 1800 },
-  { name: "Jun", visitors: 3100, users: 2200 },
-  { name: "Jul", visitors: 2500, users: 1900 },
+  { name: "Mar", visitors: 2100, users: 1400 },
+  { name: "Apr", visitors: 2400, users: 1800 },
+  { name: "May", visitors: 2700, users: 2100 },
+  { name: "Jun", visitors: 3500, users: 2900 },
+  { name: "Jul", visitors: 3200, users: 2600 },
 ];
 
 const deviceData = [
-  { name: "Desktop", value: 58 },
-  { name: "Mobile", value: 34 },
-  { name: "Tablet", value: 8 },
+  { name: "Desktop", value: 62 },
+  { name: "Mobile", value: 32 },
+  { name: "Tablet", value: 6 },
 ];
 
-const DEVICE_COLORS = ["#5E9EFF", "#50E3C2", "#F97316"];
-
 const countryData = [
-  { name: "United States", value: 34 },
-  { name: "United Kingdom", value: 18 },
-  { name: "Germany", value: 12 },
+  { name: "USA", value: 38 },
+  { name: "Germany", value: 15 },
+  { name: "UK", value: 13 },
   { name: "France", value: 9 },
-  { name: "Canada", value: 8 },
-  { name: "Others", value: 19 },
+  { name: "Other", value: 25 },
 ];
 
 const hourlyData = [
-  { name: "00:00", value: 120 },
-  { name: "02:00", value: 80 },
-  { name: "04:00", value: 60 },
-  { name: "06:00", value: 100 },
-  { name: "08:00", value: 250 },
-  { name: "10:00", value: 380 },
-  { name: "12:00", value: 420 },
-  { name: "14:00", value: 450 },
-  { name: "16:00", value: 380 },
-  { name: "18:00", value: 300 },
-  { name: "20:00", value: 220 },
-  { name: "22:00", value: 150 },
+  { hour: "12am", visitors: 420 },
+  { hour: "3am", visitors: 180 },
+  { hour: "6am", visitors: 320 },
+  { hour: "9am", visitors: 890 },
+  { hour: "12pm", visitors: 1400 },
+  { hour: "3pm", visitors: 1900 },
+  { hour: "6pm", visitors: 1700 },
+  { hour: "9pm", visitors: 1200 },
 ];
 
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-    theme: {
-      light: "#5E9EFF",
-    },
-  },
-  users: {
-    label: "Registered Users",
-    theme: {
-      light: "#50E3C2",
-    },
-  },
-  hourly: {
-    label: "Hourly Activity",
-    theme: {
-      light: "#5E9EFF",
-    },
-  },
-};
+const COLORS = [
+  "#5E9EFF", "#50E3C2", "#FF5E93", "#FFB952", "#A389F4", 
+  "#1E90FF", "#32CD32", "#FF6347", "#9370DB", "#3CB371"
+];
 
 export const Analytics = () => {
+  const [timeRange, setTimeRange] = useState("monthly");
+
+  const chartConfig = {
+    visitors: { 
+      label: "Visitors", 
+      theme: { 
+        light: "#5E9EFF",
+        dark: "#5E9EFF" 
+      } 
+    },
+    users: { 
+      label: "Users", 
+      theme: { 
+        light: "#50E3C2",
+        dark: "#50E3C2" 
+      } 
+    },
+    hourly: { 
+      label: "Visitors", 
+      theme: { 
+        light: "#5E9EFF",
+        dark: "#5E9EFF" 
+      } 
+    },
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Analytics</h1>
-        <Tabs defaultValue="week">
-          <TabsList>
-            <TabsTrigger value="day">Day</TabsTrigger>
-            <TabsTrigger value="week">Week</TabsTrigger>
-            <TabsTrigger value="month">Month</TabsTrigger>
-            <TabsTrigger value="year">Year</TabsTrigger>
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold text-charcoal">Analytics</h1>
+        <Tabs defaultValue="monthly" className="w-[200px]" onValueChange={setTimeRange}>
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="daily">Day</TabsTrigger>
+            <TabsTrigger value="weekly">Week</TabsTrigger>
+            <TabsTrigger value="monthly">Month</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Website Traffic</CardTitle>
+            <CardTitle>Visitors & Users</CardTitle>
+            <CardDescription>Site traffic and user conversion over time</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px]">
-              <LineChart data={trafficData}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip content={<ChartTooltipContent />} />
-                <Legend />
-                <Line 
-                  type="monotone" 
-                  dataKey="visitors" 
-                  stroke="var(--color-visitors)" 
-                  strokeWidth={2} 
-                  activeDot={{ r: 6 }} 
-                />
-                <Line 
-                  type="monotone" 
-                  dataKey="users" 
-                  stroke="var(--color-users)" 
-                  strokeWidth={2} 
-                  activeDot={{ r: 6 }} 
-                />
-              </LineChart>
+          <CardContent className="h-80">
+            <ChartContainer config={chartConfig}>
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={visitorsData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Area 
+                    type="monotone" 
+                    dataKey="visitors" 
+                    name="visitors"
+                    stroke="var(--color-visitors)"
+                    fill="var(--color-visitors)" 
+                    fillOpacity={0.2} 
+                  />
+                  <Area 
+                    type="monotone" 
+                    dataKey="users" 
+                    name="users"
+                    stroke="var(--color-users)" 
+                    fill="var(--color-users)" 
+                    fillOpacity={0.2} 
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
             </ChartContainer>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Device Breakdown</CardTitle>
+            <CardTitle>Hourly Traffic</CardTitle>
+            <CardDescription>Visitor volume throughout the day</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="h-[300px] flex items-center justify-center">
+          <CardContent className="h-80">
+            <ChartContainer config={chartConfig}>
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={deviceData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={100}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  >
-                    {deviceData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={DEVICE_COLORS[index % DEVICE_COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
+                <BarChart data={hourlyData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="hour" />
+                  <YAxis />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar 
+                    dataKey="visitors" 
+                    name="hourly"
+                    fill="var(--color-hourly)" 
+                  />
+                </BarChart>
               </ResponsiveContainer>
-            </div>
+            </ChartContainer>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Devices</CardTitle>
+            <CardDescription>What devices your visitors are using</CardDescription>
+          </CardHeader>
+          <CardContent className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={deviceData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                >
+                  {deviceData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => `${value}%`} />
+              </PieChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
             <CardTitle>Top Countries</CardTitle>
+            <CardDescription>Geographic distribution of your users</CardDescription>
           </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px]">
-              <BarChart
-                layout="vertical"
-                data={countryData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <XAxis type="number" />
-                <YAxis type="category" dataKey="name" width={100} />
-                <Tooltip />
-                <Bar dataKey="value" fill="#5E9EFF" barSize={20} radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Hourly Activity</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="h-[300px]">
-              <BarChart data={hourlyData}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent nameKey="name" labelKey="value" />
-                  }
-                />
-                <Bar 
-                  dataKey="value" 
-                  fill="var(--color-hourly)" 
-                  barSize={20} 
-                  radius={[4, 4, 0, 0]} 
-                />
-              </BarChart>
-            </ChartContainer>
+          <CardContent className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={countryData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                >
+                  {countryData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(value) => `${value}%`} />
+              </PieChart>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>

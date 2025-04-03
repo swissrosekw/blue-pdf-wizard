@@ -11,12 +11,12 @@ import { FileLogs } from "@/components/admin/FileLogs";
 import { SupportTickets } from "@/components/admin/SupportTickets";
 import { AdminSettings } from "@/components/admin/AdminSettings";
 import { Subscriptions } from "@/components/admin/Subscriptions";
-import { useMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const AdminPanel = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
-  const isMobile = useMobile();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // Close sidebar on mobile by default

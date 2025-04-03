@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Users, 
-  Tool, 
+  Wrench, 
   BarChart, 
   FileText, 
   MessageSquare, 
@@ -27,7 +27,7 @@ const sidebarItems = [
   { 
     name: "Tools Management", 
     path: "/sco/admin/tools", 
-    icon: Tool 
+    icon: Wrench 
   },
   { 
     name: "Analytics", 
