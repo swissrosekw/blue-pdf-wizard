@@ -10,10 +10,17 @@ import { Lock, UserCircle } from "lucide-react";
 
 // In a real application, these would be authenticated against a backend
 // For demo purposes only - in production, never hardcode credentials
-const DEMO_ADMIN_CREDENTIALS = {
-  username: "admin",
-  password: "admin123"
-};
+const DEMO_ADMIN_CREDENTIALS = [
+  {
+    username: "admin",
+    password: "admin123"
+  },
+  {
+    username: "nasir",
+    password: "Nara@123123",
+    email: "nasiralwahib@outlook.com"
+  }
+];
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
@@ -30,10 +37,12 @@ const AdminLogin = () => {
       // Simulate API call with timeout
       await new Promise(resolve => setTimeout(resolve, 800));
 
-      // Demo authentication logic - replace with real authentication in production
-      if (username === DEMO_ADMIN_CREDENTIALS.username && 
-          password === DEMO_ADMIN_CREDENTIALS.password) {
-        
+      // Demo authentication logic - check against array of credentials
+      const validCredential = DEMO_ADMIN_CREDENTIALS.find(
+        cred => cred.username === username && cred.password === password
+      );
+      
+      if (validCredential) {
         // Store admin session in localStorage (use secure auth tokens in production)
         localStorage.setItem("adminAuthenticated", "true");
         
