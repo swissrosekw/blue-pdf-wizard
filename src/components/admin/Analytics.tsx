@@ -95,7 +95,7 @@ export const Analytics = () => {
           <CardContent className="h-80">
             <ChartContainer config={chartConfig}>
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={visitorsData}>
+                <AreaChart data={visitorsData} margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
@@ -130,7 +130,7 @@ export const Analytics = () => {
           <CardContent className="h-80">
             <ChartContainer config={chartConfig}>
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={hourlyData}>
+                <BarChart data={hourlyData} margin={{ top: 10, right: 30, left: 0, bottom: 20 }}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="hour" />
                   <YAxis />
@@ -153,7 +153,7 @@ export const Analytics = () => {
           </CardHeader>
           <CardContent className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
+              <PieChart margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
                 <Pie
                   data={deviceData}
                   cx="50%"
@@ -181,7 +181,7 @@ export const Analytics = () => {
           </CardHeader>
           <CardContent className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
+              <PieChart margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
                 <Pie
                   data={countryData}
                   cx="50%"
