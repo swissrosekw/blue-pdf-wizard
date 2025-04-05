@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/custom-supabase-client";
 import { toast } from "@/hooks/use-toast";
 import { Mail, Lock, User } from "lucide-react";
 
@@ -33,22 +33,32 @@ const AuthForm = () => {
           description: "You've successfully signed in.",
         });
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { error, data } = await supabase.auth.signUp({
           email,
           password,
           options: {
             data: {
               full_name: fullName,
             },
+            emailRedirectTo: window.location.origin + '/dashboard',
           },
         });
 
         if (error) throw error;
         
-        toast({
-          title: "Account created!",
-          description: "Please check your email to verify your account.",
-        });
+        if (data.user?.identities?.length === 0) {
+          toast({
+            title: "Account exists",
+            description: "An account with this email already exists. Please sign in instead.",
+            variant: "destructive",
+          });
+          setMode("signin");
+        } else {
+          toast({
+            title: "Account created!",
+            description: "Please check your email to verify your account.",
+          });
+        }
       }
     } catch (error: any) {
       toast({

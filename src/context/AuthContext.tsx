@@ -35,6 +35,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         setLoading(false);
+        
+        // Log auth events for debugging
+        console.log("Auth event:", event);
+        
+        if (event === 'SIGNED_IN') {
+          console.log("User signed in:", currentSession?.user?.email);
+        } else if (event === 'SIGNED_OUT') {
+          console.log("User signed out");
+        } else if (event === 'USER_UPDATED') {
+          console.log("User updated");
+        }
       }
     );
 
