@@ -1,9 +1,13 @@
 
 import { Facebook, Twitter, Instagram, Github } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const Footer = () => {
+  const { t, language } = useLanguage();
+  const textDirection = language === 'ar' ? 'rtl' : 'ltr';
+  
   return (
-    <footer className="bg-charcoal text-white">
+    <footer className="bg-charcoal text-white" dir={textDirection}>
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
@@ -16,7 +20,7 @@ const Footer = () => {
               <span className="text-xl font-poppins font-semibold">PDF Salt</span>
             </a>
             <p className="text-white/70 mb-4">
-              The easiest way to edit, compress, and convert PDF files online.
+              {t('footer.description')}
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-white/70 hover:text-seaMint transition-colors">
@@ -35,41 +39,41 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Tools</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footer.tools')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Compress PDF</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Merge PDF</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Split PDF</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Convert PDF</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Edit PDF</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('tools.compress')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('tools.merge')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('tools.split')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('tools.convert')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('tools.edit')}</a></li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Company</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footer.company')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">About Us</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Pricing</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Blog</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Contact</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Careers</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('footer.aboutUs')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('nav.pricing')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('footer.blog')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('nav.contact')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('footer.careers')}</a></li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Legal</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footer.legal')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Cookies Policy</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">GDPR Compliance</a></li>
-              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">Security</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('footer.terms')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('footer.privacy')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('footer.cookies')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('footer.gdpr')}</a></li>
+              <li><a href="#" className="text-white/70 hover:text-seaMint transition-colors">{t('footer.security')}</a></li>
             </ul>
           </div>
         </div>
         
         <div className="border-t border-white/10 mt-12 pt-8 text-center text-white/70">
-          <p>&copy; {new Date().getFullYear()} PDF Salt. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} PDF Salt. {t('footer.rights')}</p>
         </div>
       </div>
     </footer>
