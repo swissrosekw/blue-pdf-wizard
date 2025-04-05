@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "@/components/auth/AuthForm";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/custom-supabase-client";
 import MainHeader from "@/components/MainHeader";
 import Footer from "@/components/Footer";
 

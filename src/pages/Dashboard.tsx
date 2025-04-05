@@ -5,7 +5,7 @@ import MainHeader from "@/components/MainHeader";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/custom-supabase-client";
 import { FileIcon, Trash2, Download, Search, LogOut } from "lucide-react";
 import { formatFileSize } from "@/utils/fileUtils";
 import { toast } from "@/hooks/use-toast";

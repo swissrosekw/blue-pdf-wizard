@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/custom-supabase-client";
 import { useAuth } from "@/context/AuthContext";
 import { Upload, FileIcon, AlertCircle } from "lucide-react";
 import { formatFileSize } from "@/utils/fileUtils";

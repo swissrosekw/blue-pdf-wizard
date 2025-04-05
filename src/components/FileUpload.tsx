@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { FileUp, File, Check, AlertCircle, FileIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/context/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/integrations/custom-supabase-client";
 import { Link } from "react-router-dom";
 
 const FileUpload = () => {
