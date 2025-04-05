@@ -73,13 +73,4 @@ export type Database = OriginalDatabase & {
   };
 };
 
-// Update supabase client to use our extended type
-declare module '@supabase/supabase-js' {
-  interface SupabaseClientOptions {
-    auth?: {
-      persistSession?: boolean;
-      autoRefreshToken?: boolean;
-      storage?: any;
-    }
-  }
-}
+// Remove the duplicate interface declaration that was causing the error
