@@ -1,5 +1,5 @@
-
-import { Facebook, Twitter, Instagram, Github } from "lucide-react";
+import React from "react";
+import { Instagram } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 const Footer = () => {
@@ -23,17 +23,13 @@ const Footer = () => {
               {t('footer.description')}
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-white/70 hover:text-seaMint transition-colors">
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="text-white/70 hover:text-seaMint transition-colors">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-white/70 hover:text-seaMint transition-colors">
+              <a 
+                href="https://www.instagram.com/pdfsalt" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white/70 hover:text-seaMint transition-colors"
+              >
                 <Instagram size={20} />
-              </a>
-              <a href="#" className="text-white/70 hover:text-seaMint transition-colors">
-                <Github size={20} />
               </a>
             </div>
           </div>
