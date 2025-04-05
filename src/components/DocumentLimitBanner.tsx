@@ -28,23 +28,22 @@ const DocumentLimitBanner = () => {
       <div className="w-full">
         <AlertTitle className={isLimitReached ? 'text-red-800' : 'text-blue-800'}>
           {isLimitReached 
-            ? t('limits.upgradeRequired', FREE_DAILY_UPLOAD_LIMIT)
-            : t('limits.dailyUploads', dailyUploadsUsed, FREE_DAILY_UPLOAD_LIMIT)
+            ? t('limits.upgradeRequired')
+            : t('limits.dailyUploads')
           }
         </AlertTitle>
         <AlertDescription className="mt-2">
           <div className="mb-2">
             <Progress 
               value={usagePercentage} 
-              className={`h-2 ${isLimitReached ? 'bg-red-100' : 'bg-blue-100'}`} 
-              indicatorClassName={isLimitReached ? 'bg-red-500' : 'bg-blue-500'} 
+              className={`h-2 ${isLimitReached ? 'bg-red-100' : 'bg-blue-100'} [&>div]:${isLimitReached ? 'bg-red-500' : 'bg-blue-500'}`} 
             />
           </div>
           <div className="flex items-center justify-between">
             <span className={`text-sm ${isLimitReached ? 'text-red-700' : 'text-blue-700'}`}>
               {isLimitReached 
                 ? t('limits.upgradePrompt')
-                : t('limits.remainingUploads', dailyUploadsRemaining)
+                : t('limits.remainingUploads')
               }
             </span>
             <Button 

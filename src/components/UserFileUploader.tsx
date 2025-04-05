@@ -63,7 +63,7 @@ const UserFileUploader = ({
     if (dailyUploadsRemaining !== null && dailyUploadsRemaining <= 0) {
       toast({
         title: "Daily limit reached",
-        description: t('limits.upgradeRequired', FREE_DAILY_UPLOAD_LIMIT),
+        description: t('limits.upgradeRequired'),
         variant: "destructive",
       });
       navigate("/pricing");
@@ -147,11 +147,11 @@ const UserFileUploader = ({
           <div>
             <h4 className={`text-sm font-medium 
               ${dailyUploadsRemaining > 0 ? 'text-blue-800' : 'text-amber-800'}`}>
-              {t('limits.dailyUploads', dailyUploadsUsed, FREE_DAILY_UPLOAD_LIMIT)}
+              {t('limits.dailyUploads')}
             </h4>
             {dailyUploadsRemaining > 0 ? (
               <p className="text-xs text-blue-700">
-                {t('limits.remainingUploads', dailyUploadsRemaining)}
+                {t('limits.remainingUploads')}
               </p>
             ) : (
               <>

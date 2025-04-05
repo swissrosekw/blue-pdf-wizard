@@ -6,7 +6,7 @@ type Language = 'en' | 'ar';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: (key: string) => string;
+  t: (key: string, ...params: any[]) => string;
 }
 
 const translations = {
