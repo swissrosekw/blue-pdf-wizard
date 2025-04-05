@@ -1,3 +1,4 @@
+
 import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 type Language = 'en' | 'ar';
@@ -35,7 +36,13 @@ const translations = {
     'footer.security': 'Security',
     'hero.getStarted': 'Get Started',
     'toolsPage.hero.title': 'PDF Tools for Every Need',
-    'toolsPage.hero.subtitle': 'Powerful, easy-to-use tools to manage your PDF documents efficiently.'
+    'toolsPage.hero.subtitle': 'Powerful, easy-to-use tools to manage your PDF documents efficiently.',
+    'limits.dailyUploads': 'Daily uploads: {0} of {1}',
+    'limits.upgradeRequired': 'You\'ve reached your daily upload limit of {0} documents.',
+    'limits.upgradePrompt': 'Upgrade to continue using our services today.',
+    'limits.upgradeButton': 'Upgrade Now',
+    'limits.remainingUploads': '{0} uploads remaining today',
+    'limits.unlimited': 'Unlimited uploads with a premium subscription'
   },
   ar: {
     'nav.home': 'الصفحة الرئيسية',
@@ -63,7 +70,13 @@ const translations = {
     'footer.security': 'الأمان',
     'hero.getStarted': 'ابدأ الآن',
     'toolsPage.hero.title': 'أدوات PDF لكل احتياجاتك',
-    'toolsPage.hero.subtitle': 'أدوات قوية وسهلة الاستخدام لإدارة مستندات PDF الخاصة بك بكفاءة.'
+    'toolsPage.hero.subtitle': 'أدوات قوية وسهلة الاستخدام لإدارة مستندات PDF الخاصة بك بكفاءة.',
+    'limits.dailyUploads': 'التحميلات اليومية: {0} من {1}',
+    'limits.upgradeRequired': 'لقد وصلت إلى الحد اليومي البالغ {0} مستندات.',
+    'limits.upgradePrompt': 'قم بالترقية للاستمرار في استخدام خدماتنا اليوم.',
+    'limits.upgradeButton': 'الترقية الآن',
+    'limits.remainingUploads': '{0} تحميلات متبقية اليوم',
+    'limits.unlimited': 'تحميلات غير محدودة مع اشتراك مميز'
   }
 };
 
@@ -76,8 +89,18 @@ const LanguageContext = createContext<LanguageContextType>({
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('en');
 
-  const t = (key: string) => {
-    return translations[language][key] || key;
+  const t = (key: string, ...params: any[]) => {
+    let text = translations[language][key] || key;
+    
+    // Replace placeholders like {0}, {1} with actual parameters
+    if (params.length > 0) {
+      params.forEach((param, index) => {
+        const placeholder = `{${index}}`;
+        text = text.replace(placeholder, param.toString());
+      });
+    }
+    
+    return text;
   };
 
   return (

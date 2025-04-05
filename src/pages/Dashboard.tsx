@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MainHeader from "@/components/MainHeader";
@@ -11,6 +10,7 @@ import { formatFileSize } from "@/utils/fileUtils";
 import { toast } from "@/hooks/use-toast";
 import UserFileUploader from "@/components/UserFileUploader";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import DocumentLimitBanner from "@/components/DocumentLimitBanner";
 
 interface UserFile {
   id: string;
@@ -184,6 +184,8 @@ const Dashboard = () => {
               </Button>
             </div>
           </div>
+          
+          <DocumentLimitBanner />
           
           <div className="mb-6 relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

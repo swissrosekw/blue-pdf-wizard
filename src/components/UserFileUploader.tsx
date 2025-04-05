@@ -4,8 +4,11 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/custom-supabase-client";
 import { useAuth } from "@/context/AuthContext";
+import { useDocumentLimit, FREE_DAILY_UPLOAD_LIMIT } from "@/context/DocumentLimitContext";
 import { Upload, FileIcon, AlertCircle } from "lucide-react";
 import { formatFileSize } from "@/utils/fileUtils";
+import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface UserFileUploaderProps {
   onSuccess?: (filePath: string) => void;
@@ -21,7 +24,10 @@ const UserFileUploader = ({
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const { user } = useAuth();
+  const { dailyUploadsRemaining, dailyUploadsUsed, incrementUsage } = useDocumentLimit();
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -52,6 +58,17 @@ const UserFileUploader = ({
 
   const handleUpload = async () => {
     if (!file || !user) return;
+    
+    // Check if user has reached daily limit
+    if (dailyUploadsRemaining !== null && dailyUploadsRemaining <= 0) {
+      toast({
+        title: "Daily limit reached",
+        description: t('limits.upgradeRequired', FREE_DAILY_UPLOAD_LIMIT),
+        variant: "destructive",
+      });
+      navigate("/pricing");
+      return;
+    }
     
     setUploading(true);
     
@@ -90,6 +107,9 @@ const UserFileUploader = ({
         description: `${file.name} has been saved to your account`,
       });
       
+      // Update the usage count in the context
+      await incrementUsage();
+      
       // Reset state
       setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -112,6 +132,47 @@ const UserFileUploader = ({
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
+  };
+
+  // Show usage limit information
+  const renderLimitInfo = () => {
+    if (!user) return null;
+    
+    if (dailyUploadsRemaining !== null && dailyUploadsUsed !== null) {
+      return (
+        <div className={`mt-4 p-3 rounded-md flex items-start space-x-3 
+          ${dailyUploadsRemaining > 0 ? 'bg-blue-50 border border-blue-200' : 'bg-amber-50 border border-amber-200'}`}>
+          <AlertCircle className={`h-5 w-5 flex-shrink-0 mt-0.5 
+            ${dailyUploadsRemaining > 0 ? 'text-blue-500' : 'text-amber-500'}`} />
+          <div>
+            <h4 className={`text-sm font-medium 
+              ${dailyUploadsRemaining > 0 ? 'text-blue-800' : 'text-amber-800'}`}>
+              {t('limits.dailyUploads', dailyUploadsUsed, FREE_DAILY_UPLOAD_LIMIT)}
+            </h4>
+            {dailyUploadsRemaining > 0 ? (
+              <p className="text-xs text-blue-700">
+                {t('limits.remainingUploads', dailyUploadsRemaining)}
+              </p>
+            ) : (
+              <>
+                <p className="text-xs text-amber-700">
+                  {t('limits.upgradePrompt')}
+                </p>
+                <Button
+                  size="sm"
+                  className="mt-2 bg-amber-600 hover:bg-amber-700"
+                  onClick={() => navigate('/pricing')}
+                >
+                  {t('limits.upgradeButton')}
+                </Button>
+              </>
+            )}
+          </div>
+        </div>
+      );
+    }
+    
+    return null;
   };
 
   return (
@@ -156,6 +217,13 @@ const UserFileUploader = ({
             <div className="flex-1">
               <h3 className="text-base font-medium truncate">{file.name}</h3>
               <p className="text-sm text-gray-500">{formatFileSize(file.size)}</p>
+              
+              {/* Show merged file details if available */}
+              {file['fileCount'] && file['fileCount'] > 1 && (
+                <div className="text-xs opacity-60 mt-1">
+                  Contains {file['fileCount']} files
+                </div>
+              )}
             </div>
             <div className="flex space-x-2">
               <Button 
@@ -172,7 +240,7 @@ const UserFileUploader = ({
                 className="bg-saltBlue hover:bg-saltBlue/90" 
                 size="sm"
                 onClick={handleUpload}
-                disabled={uploading}
+                disabled={uploading || (dailyUploadsRemaining !== null && dailyUploadsRemaining <= 0)}
               >
                 {uploading ? "Uploading..." : "Upload"}
               </Button>
@@ -190,6 +258,8 @@ const UserFileUploader = ({
           </div>
         </div>
       )}
+      
+      {renderLimitInfo()}
     </div>
   );
 };
