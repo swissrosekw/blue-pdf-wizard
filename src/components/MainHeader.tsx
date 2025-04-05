@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import AuthButton from "@/components/auth/AuthButton";
 
 const MainHeader = () => {
   return (
@@ -26,14 +27,7 @@ const MainHeader = () => {
           </nav>
           
           <div className="flex items-center space-x-4">
-            <Button variant="outline" className="hidden md:inline-flex">
-              Sign In
-            </Button>
-            <Button asChild className="bg-saltBlue hover:bg-saltBlue/90">
-              <Link to="/plans">
-                Get Started
-              </Link>
-            </Button>
+            <AuthButton />
           </div>
         </div>
       </div>

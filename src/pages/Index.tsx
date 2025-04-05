@@ -9,8 +9,11 @@ import AdBanner from "@/components/AdBanner";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const Index = () => {
+  const { user } = useAuth();
+
   return (
     <div className="min-h-screen flex flex-col">
       <MainHeader />
@@ -32,6 +35,18 @@ const Index = () => {
             </div>
             
             <FileUpload />
+            
+            {user && (
+              <div className="text-center mt-6">
+                <Link 
+                  to="/dashboard"
+                  className="text-saltBlue hover:underline font-medium inline-flex items-center"
+                >
+                  View your saved files
+                  <ArrowRight className="ml-1 h-4 w-4" />
+                </Link>
+              </div>
+            )}
           </div>
         </section>
         
@@ -90,8 +105,8 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button asChild className="bg-white text-saltBlue hover:bg-white/90 px-8 py-6 text-lg font-medium">
-                <Link to="/plans">
-                  Get Started Now
+                <Link to={user ? "/dashboard" : "/auth"}>
+                  {user ? "Go to Dashboard" : "Get Started Now"}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
