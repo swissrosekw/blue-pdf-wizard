@@ -51,6 +51,7 @@ const translations: Record<Language, Record<string, string>> = {
     'tools.optimizeDesc': 'Optimize your PDF for web and mobile',
     'tools.repair': 'Repair PDF',
     'tools.repairDesc': 'Fix corrupt or damaged PDF files',
+    'tools.try': 'Try',
     
     // Features section
     'features.title': 'Why choose PDF Salt?',
@@ -134,6 +135,7 @@ const translations: Record<Language, Record<string, string>> = {
     'tools.optimizeDesc': 'تحسين ملف PDF للويب والجوال',
     'tools.repair': 'إصلاح PDF',
     'tools.repairDesc': 'إصلاح ملفات PDF التالفة أو المعطوبة',
+    'tools.try': 'جرب',
     
     // Features section
     'features.title': 'لماذا تختار PDF Salt؟',
